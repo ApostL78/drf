@@ -1,8 +1,9 @@
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from famous_persons.models import Person
+from famous_persons.models import Person, Role
 from famous_persons.serializers import ModelPersonSerializer, PersonSerializer
 
 
@@ -71,3 +72,21 @@ class RawPersonAPIView(APIView):
 class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = ModelPersonSerializer
+
+    @action(methods=["get"], detail=False, url_path="role-list")
+    def role_list(self, request):
+        roles = Role.objects.all()
+        return Response({"roles": [r.name for r in roles]})
+
+    @action(methods=["get"], detail=True, url_path="role-detail")
+    def role_detail(self, request, pk=None):
+        if not pk:
+            roles = Role.objects.all()
+            return Response({"roles": [r.name for r in roles]})
+        try:
+            role = Role.objects.get(pk=pk)
+        except Role.DoesNotExist:
+            return Response({"error": "Object does not exists"})
+        except Role.MultipleObjectsReturned:
+            return Response({"error": f"More then 1 instance have the same pk: {pk}"})
+        return Response({"role": role.name})

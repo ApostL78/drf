@@ -3,7 +3,7 @@ from rest_framework import routers
 
 from famous_persons import views
 
-router = routers.SimpleRouter()
+router = routers.DefaultRouter()
 router.register("person", views.PersonViewSet)
 
 urlpatterns = [
