@@ -14,13 +14,43 @@ class RawPersonAPIView(APIView):
     def post(self, request):
         serializer = PersonSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
 
-        new_person = Person.objects.create(
-            title=request.data['title'],
-            content=request.data['content'],
-            role=request.data['role_id']
-        )
-        return Response({'post': PersonSerializer(new_person).data})
+        return Response({'post': serializer.data})
+
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "instance can't be defined (provide a pk)"})
+
+        try:
+            instance = Person.objects.get(pk=pk)
+        except Person.DoesNotExist:
+            return Response({"error": "Object does not exists"})
+        except Person.MultipleObjectsReturned:
+            return Response({"error": f"More then 1 instance have the same pk: {pk}"})
+
+        serializer = PersonSerializer(data=request.data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"post": serializer.data})
+
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "instance can't be defined (provide a pk)"})
+
+        try:
+            instance = Person.objects.get(pk=pk)
+        except Person.DoesNotExist:
+            return Response({"error": "Object does not exists"})
+        except Person.MultipleObjectsReturned:
+            return Response({"error": f"More then 1 instance have the same pk: {pk}"})
+
+        instance.delete()
+
+        return Response({"post": "delete post " + str(pk)})
 
 
 class PersonAPIView(generics.ListAPIView):
