@@ -5,6 +5,11 @@ from famous_persons import views
 urlpatterns = [
     path("person-list/", views.PersonListAPIView.as_view(), name="person-list"),
     path(
+        "person-retrieve-update-destroy/<int:pk>/",
+        views.PersonCRUDAPIView.as_view(),
+        name="person-crud",
+    ),
+    path(
         "person-list-create/",
         views.PersonListCreateAPIView.as_view(),
         name="person-list-create",

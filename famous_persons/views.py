@@ -16,7 +16,7 @@ class RawPersonAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response({'post': serializer.data})
+        return Response({"post": serializer.data})
 
     def put(self, request, *args, **kwargs):
         pk = kwargs.get("pk", None)
@@ -59,5 +59,10 @@ class PersonListAPIView(generics.ListAPIView):
 
 
 class PersonListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Person.objects.all()
+    serializer_class = ModelPersonSerializer
+
+
+class PersonCRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Person.objects.all()
     serializer_class = ModelPersonSerializer
