@@ -19,8 +19,9 @@ class PersonSerializer(serializers.Serializer):
         instance.title = validated_data.get("title", instance.title)
         instance.content = validated_data.get("content", instance.content)
         instance.time_update = validated_data.get("time_update", instance.time_update)
-        instance.is_published = validated_data.get("is_published",
-                                                   instance.is_published)
+        instance.is_published = validated_data.get(
+            "is_published", instance.is_published
+        )
         instance.cat_id = validated_data.get("cat_id", instance.cat_id)
         instance.save()
         return instance
@@ -29,4 +30,12 @@ class PersonSerializer(serializers.Serializer):
 class ModelPersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = ('title', 'role_id')
+        fields = (
+            "pk",
+            "title",
+            "role",
+            "content",
+            "time_create",
+            "time_update",
+            "is_published",
+        )

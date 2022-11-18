@@ -53,6 +53,11 @@ class RawPersonAPIView(APIView):
         return Response({"post": "delete post " + str(pk)})
 
 
-class PersonAPIView(generics.ListAPIView):
+class PersonListAPIView(generics.ListAPIView):
+    queryset = Person.objects.all()
+    serializer_class = ModelPersonSerializer
+
+
+class PersonListCreateAPIView(generics.ListCreateAPIView):
     queryset = Person.objects.all()
     serializer_class = ModelPersonSerializer
