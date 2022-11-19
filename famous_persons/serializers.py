@@ -57,6 +57,7 @@ class ModelPersonSerializer(serializers.ModelSerializer):
             "pk",
             "title",
             "role_id",
+            "role",
             'role_info',
             "content",
             "time_create",
