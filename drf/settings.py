@@ -55,18 +55,18 @@ ROOT_URLCONF = "drf.urls"
 
 TEMPLATES = [
     {
-    "BACKEND": "django.template.backends.django.DjangoTemplates",
-    "DIRS": [BASE_DIR / "templates"],
-    "APP_DIRS": True,
-    "OPTIONS": {
-        "context_processors": [
-            "django.template.context_processors.debug",
-            "django.template.context_processors.request",
-            "django.contrib.auth.context_processors.auth",
-            "django.contrib.messages.context_processors.messages",
-        ],
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
     },
-},
 ]
 
 WSGI_APPLICATION = "drf.wsgi.application"
@@ -90,11 +90,11 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-    "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-},
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
     {
-    "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-},
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },

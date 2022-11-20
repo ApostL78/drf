@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -53,16 +53,21 @@ class RawPersonAPIView(APIView):
         return Response({"post": "delete post " + str(pk)})
 
 
-class PersonListAPIView(generics.ListAPIView):
-    queryset = Person.objects.all()
-    serializer_class = ModelPersonSerializer
+# class PersonListAPIView(generics.ListAPIView):
+#     queryset = Person.objects.all()
+#     serializer_class = ModelPersonSerializer
+#
+#
+# class PersonListCreateAPIView(generics.ListCreateAPIView):
+#     queryset = Person.objects.all()
+#     serializer_class = ModelPersonSerializer
+#
+#
+# class PersonCRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Person.objects.all()
+#     serializer_class = ModelPersonSerializer
 
 
-class PersonListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Person.objects.all()
-    serializer_class = ModelPersonSerializer
-
-
-class PersonCRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
+class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = ModelPersonSerializer

@@ -1,19 +1,13 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
 from famous_persons import views
 
+router = routers.SimpleRouter()
+router.register("person", views.PersonViewSet)
+
 urlpatterns = [
-    path("person-list/", views.PersonListAPIView.as_view(), name="person-list"),
-    path(
-        "person-retrieve-update-destroy/<int:pk>/",
-        views.PersonCRUDAPIView.as_view(),
-        name="person-crud",
-    ),
-    path(
-        "person-list-create/",
-        views.PersonListCreateAPIView.as_view(),
-        name="person-list-create",
-    ),
+    path("", include(router.urls)),
     path("raw-person-list/", views.RawPersonAPIView.as_view(), name="raw-person-list"),
     path(
         "raw-person-list/<int:pk>/",
