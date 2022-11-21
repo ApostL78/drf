@@ -1,11 +1,18 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from famous_persons.models import Person, Role
 from famous_persons.permissions import IsAdminOrReadOnly
 from famous_persons.serializers import ModelPersonSerializer, PersonSerializer
+
+
+class PersonViewSetPagination(PageNumberPagination):
+    page_size = 3
+    page_size_query_param = "page_size"
+    max_page_size = 10000
 
 
 class RawPersonAPIView(APIView):
@@ -74,6 +81,7 @@ class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = ModelPersonSerializer
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = PersonViewSetPagination
 
     @action(methods=["get"], detail=False, url_path="role-list")
     def role_list(self, request):

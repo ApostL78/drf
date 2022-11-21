@@ -25,8 +25,8 @@ class Role(models.Model):
     name = models.CharField(max_length=100, db_index=True)
 
     class Meta:
-    verbose_name = "Роль"
-    verbose_name_plural = "Роли"
+        verbose_name = "Роль"
+        verbose_name_plural = "Роли"
 
     def __str__(self):
         return self.name
