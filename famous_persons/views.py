@@ -6,7 +6,8 @@ from rest_framework.views import APIView
 
 from famous_persons.models import Person, Role
 from famous_persons.permissions import IsAdminOrReadOnly
-from famous_persons.serializers import ModelPersonSerializer, PersonSerializer
+from famous_persons.serializers import ModelPersonSerializer, PersonSerializer, \
+    ModelRoleSerializer
 
 
 class PersonViewSetPagination(PageNumberPagination):
@@ -100,3 +101,9 @@ class PersonViewSet(viewsets.ModelViewSet):
         except Role.MultipleObjectsReturned:
             return Response({"error": f"More then 1 instance have the same pk: {pk}"})
         return Response({"role": role.name})
+
+
+class RoleViewSet(viewsets.ModelViewSet):
+    queryset = Role.objects.all()
+    serializer_class = ModelRoleSerializer
+    permission_classes = [IsAdminOrReadOnly]

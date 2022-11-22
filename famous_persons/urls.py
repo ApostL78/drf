@@ -5,6 +5,7 @@ from famous_persons import views
 
 router = routers.DefaultRouter()
 router.register("person", views.PersonViewSet)
+router.register("role", views.RoleViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
