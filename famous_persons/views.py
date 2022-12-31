@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from famous_persons.models import Person, Role
+from famous_persons.permissions import IsAdminOrReadOnly
 from famous_persons.serializers import ModelPersonSerializer, PersonSerializer
 
 
@@ -72,6 +73,7 @@ class RawPersonAPIView(APIView):
 class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = ModelPersonSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
     @action(methods=["get"], detail=False, url_path="role-list")
     def role_list(self, request):

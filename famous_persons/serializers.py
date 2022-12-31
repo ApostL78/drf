@@ -1,6 +1,7 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from famous_persons.models import Person
+from famous_persons.models import Person, Role
 
 
 class PersonSerializer(serializers.Serializer):
@@ -27,15 +28,41 @@ class PersonSerializer(serializers.Serializer):
         return instance
 
 
+class ModelRoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Role
+        fields = ("name",)
+
+
+class ModelUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("username", "email", "first_name", "last_name", "date_joined")
+
+
 class ModelPersonSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    user_info = serializers.SerializerMethodField()
+    role_info = serializers.SerializerMethodField()
+
+    def get_user_info(self, instance):
+        return ModelUserSerializer(instance.user).data
+
+    def get_role_info(self, instance):
+        return ModelRoleSerializer(instance.role).data
+
     class Meta:
         model = Person
         fields = (
             "pk",
             "title",
-            "role",
+            "role_id",
+            'role_info',
             "content",
             "time_create",
             "time_update",
             "is_published",
+            "user_id",
+            "user_info",
+            "user",
         )
